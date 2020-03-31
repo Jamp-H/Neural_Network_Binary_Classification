@@ -1,1 +1,3 @@
-# Neural_Network_Binary_Classification
+# Neural Network Binary Classification
+
+## How to run this function
