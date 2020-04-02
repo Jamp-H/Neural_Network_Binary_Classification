@@ -1,0 +1,52 @@
+###############################################################################
+#
+# AUTHOR(S): Joshua Holguin
+# DESCRIPTION: program that will implement stochastic gradient descent algorithm
+# for a one layer neural network
+# VERSION: 0.0.1v
+#
+###############################################################################
+# import statements
+import numpy as np
+from sklearn.preprocessing import scale
+import tensorflow as tf
+from tensorflow import keras
+
+# Function: convert_data_to_matrix
+# INPUT ARGS:
+#   file_name : the csv file that we will be pulling our matrix data from
+# Return: data_matrix_full
+def convert_data_to_matrix(file_name):
+    data_matrix_full = np.genfromtxt( file_name, delimiter = " " )
+    return data_matrix_full
+
+
+# Function: main
+# INPUT ARGS:
+#   none
+# Return: none
+def main():
+
+    # denote file name for data set
+    file_name = "spam.data"
+    # Get data into matrix form
+    X_mat_full = convert_data_to_matrix(file_name)
+
+    X_mat_full_col_len = X_mat_full.shape[1]
+    # split data into a matrix and vector of pred values
+    X_mat = X_mat_full[:,:-1]
+    y_vec = X_mat_full[:,X_mat_full_col_len-1]
+
+    # Scale matrix for use
+    X_sc = scale(X_mat)
+
+    # divide data into 80% train and 20% test
+    X_train, X_test = np.split( X_sc, [int(.8 * len(X_sc))])
+    y_train, y_test = np.split( X_sc, [int(.8 * len(y_vec))])
+
+    # split train data into 60% subtrain and 40% validation
+    X_subtrain, X_validation = np.split( X_train, [int(.6 * len(X_train))])
+    y_subtrain, y_validation = np.split( X_train, [int(.6 * len(y_train))])
+
+
+main()
