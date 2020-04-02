@@ -34,19 +34,19 @@ def main():
 
     X_mat_full_col_len = X_mat_full.shape[1]
     # split data into a matrix and vector of pred values
-    X_mat = X_mat_full[:,:-1]
-    y_vec = X_mat_full[:,X_mat_full_col_len-1]
+    X_mat = np.array(X_mat_full[:,:-1])
+    y_vec = np.array(X_mat_full[:,X_mat_full_col_len-1])
 
     # Scale matrix for use
     X_sc = scale(X_mat)
 
     # divide data into 80% train and 20% test
     X_train, X_test = np.split( X_sc, [int(.8 * len(X_sc))])
-    y_train, y_test = np.split( X_sc, [int(.8 * len(y_vec))])
+    y_train, y_test = np.split( y_vec, [int(.8 * len(y_vec))])
 
     # split train data into 60% subtrain and 40% validation
     X_subtrain, X_validation = np.split( X_train, [int(.6 * len(X_train))])
-    y_subtrain, y_validation = np.split( X_train, [int(.6 * len(y_train))])
+    y_subtrain, y_validation = np.split( y_train, [int(.6 * len(y_train))])
 
 
     # create a neural network with 1 hidden layer
@@ -61,7 +61,7 @@ def main():
     model_1.compile(optimizer='adam',
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
-
+    print(y_train.shape)
     # fit the models
     model_1.fit(x=X_train, y=y_train, epochs=5, verbose=2, validation_split=.03)
 
