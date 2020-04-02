@@ -53,7 +53,19 @@ def main():
 
     model_1 = keras.Sequential([
     keras.layers.Flatten(input_shape=(np.size(X_train, 1), )), # input layer
+    keras.layers.Dense(10, activation='sigmoid', use_bias=False), # hidden layer
+    keras.layers.Dense(1, activation='sigmoid', use_bias=False) # output layer
+    ])
+
+    model_2 = keras.Sequential([
+    keras.layers.Flatten(input_shape=(np.size(X_train, 1), )), # input layer
     keras.layers.Dense(100, activation='sigmoid', use_bias=False), # hidden layer
+    keras.layers.Dense(1, activation='sigmoid', use_bias=False) # output layer
+    ])
+
+    model_3 = keras.Sequential([
+    keras.layers.Flatten(input_shape=(np.size(X_train, 1), )), # input layer
+    keras.layers.Dense(1000, activation='sigmoid', use_bias=False), # hidden layer
     keras.layers.Dense(1, activation='sigmoid', use_bias=False) # output layer
     ])
 
@@ -61,8 +73,20 @@ def main():
     model_1.compile(optimizer='adam',
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
-    print(y_train.shape)
+
+
+    model_2.compile(optimizer='adam',
+                  loss='binary_crossentropy',
+                  metrics=['accuracy'])
+
+
+    model_3.compile(optimizer='adam',
+                  loss='binary_crossentropy',
+                  metrics=['accuracy'])
+
     # fit the models
     model_1.fit(x=X_train, y=y_train, epochs=5, verbose=2, validation_split=.03)
+    model_2.fit(x=X_train, y=y_train, epochs=5, verbose=2, validation_split=.03)
+    model_3.fit(x=X_train, y=y_train, epochs=5, verbose=2, validation_split=.03)
 
 main()
