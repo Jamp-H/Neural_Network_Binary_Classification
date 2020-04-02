@@ -49,4 +49,20 @@ def main():
     y_subtrain, y_validation = np.split( X_train, [int(.6 * len(y_train))])
 
 
+    # create a neural network with 1 hidden layer
+
+    model_1 = keras.Sequential([
+    keras.layers.Flatten(input_shape=(np.size(X_train, 1), )), # input layer
+    keras.layers.Dense(100, activation='sigmoid', use_bias=False), # hidden layer
+    keras.layers.Dense(1, activation='sigmoid', use_bias=False) # output layer
+    ])
+
+    # compile the models
+    model_1.compile(optimizer='adam',
+                  loss='binary_crossentropy',
+                  metrics=['accuracy'])
+
+    # fit the models
+    model_1.fit(x=X_train, y=y_train, epochs=5, verbose=2, validation_split=.03)
+
 main()
