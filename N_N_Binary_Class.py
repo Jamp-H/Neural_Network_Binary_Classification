@@ -11,6 +11,7 @@ import numpy as np
 from sklearn.preprocessing import scale
 import tensorflow as tf
 from tensorflow import keras
+import matplotlib as plt
 
 # Function: convert_data_to_matrix
 # INPUT ARGS:
@@ -49,66 +50,37 @@ def main():
     X_subtrain, X_validation = np.split( X_train, [int(.6 * len(X_train))])
     y_subtrain, y_validation = np.split( y_train, [int(.6 * len(y_train))])
 
+    # set array of hidden layers for models
+    hidden_layers = [10,100,1000]
+
+    # set model variable to keep track on which number model is being ran
+    model_number = 1
 
     # create a neural network with 1 hidden layer
 
-    model_1 = keras.Sequential([
-    keras.layers.Flatten(input_shape=(np.size(X_train, 1), )), # input layer
-    keras.layers.Dense(10, activation='sigmoid', use_bias=False), # hidden layer
-    keras.layers.Dense(1, activation='sigmoid', use_bias=False) # output layer
-    ])
+    for hidden_layer in hidden_layers:
+        # set model for single layered NN
+        model = keras.Sequential([
+        keras.layers.Flatten(input_shape=(np.size(X_train, 1), )), # input layer
+        keras.layers.Dense(hidden_layer, activation='sigmoid', use_bias=False), # hidden layer
+        keras.layers.Dense(1, activation='sigmoid', use_bias=False) # output layer
+        ])
 
-    model_2 = keras.Sequential([
-    keras.layers.Flatten(input_shape=(np.size(X_train, 1), )), # input layer
-    keras.layers.Dense(100, activation='sigmoid', use_bias=False), # hidden layer
-    keras.layers.Dense(1, activation='sigmoid', use_bias=False) # output layer
-    ])
+        # compile the models
+        model.compile(optimizer='sgd',
+                      loss='binary_crossentropy',
+                      metrics=['accuracy'])
 
-    model_3 = keras.Sequential([
-    keras.layers.Flatten(input_shape=(np.size(X_train, 1), )), # input layer
-    keras.layers.Dense(1000, activation='sigmoid', use_bias=False), # hidden layer
-    keras.layers.Dense(1, activation='sigmoid', use_bias=False) # output layer
-    ])
+        # fit the models
+        print(f"\nModel {model_number}")
+        print("==============================================")
+        model_data = model.fit(
+                                    x=X_train,
+                                    y=y_train,
+                                    epochs=5,
+                                    verbose=2,
+                                    validation_split=.03)
 
-    # compile the models
-    model_1.compile(optimizer='sgd',
-                  loss='binary_crossentropy',
-                  metrics=['accuracy'])
-
-    model_2.compile(optimizer='sgd',
-                  loss='binary_crossentropy',
-                  metrics=['accuracy'])
-
-    model_3.compile(optimizer='sgd',
-                  loss='binary_crossentropy',
-                  metrics=['accuracy'])
-
-    # fit the models
-    print("\nModel 1")
-    print("==============================================")
-    model_1_data = model_1.fit(
-                                x=X_train,
-                                y=y_train,
-                                epochs=5,
-                                verbose=2,
-                                validation_split=.03)
-
-    print("\nModel 2")
-    print("==============================================")
-    model_2_data = model_2.fit(
-                x=X_train,
-                y=y_train,
-                epochs=5,
-                verbose=2,
-                validation_split=.03)
-
-    print("\nModel 3")
-    print("==============================================")
-    model_3_data = model_3.fit(
-                x=X_train,
-                y=y_train,
-                epochs=5,
-                verbose=2,
-                validation_split=.03)
-
+        # update model number
+        model_number += 1
 main()
