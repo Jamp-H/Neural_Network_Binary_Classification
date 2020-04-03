@@ -26,8 +26,7 @@ def convert_data_to_matrix(file_name):
 #   none
 # Return: none
 def main():
-    logdir = "logs/scalars/" + datetime.now().strftime("%Y%m%d-%H%M%S")
-    tensorboard_callback = keras.callbacks.TensorBoard(log_dir=logdir)
+
 
     # denote file name for data set
     file_name = "spam.data"
@@ -96,7 +95,7 @@ def main():
 
     print("\nModel 2")
     print("==============================================")
-    model_2.fit(
+    model_2_data = model_2.fit(
                 x=X_train,
                 y=y_train,
                 epochs=5,
@@ -105,12 +104,11 @@ def main():
 
     print("\nModel 3")
     print("==============================================")
-    model_3.fit(
+    model_3_data = model_3.fit(
                 x=X_train,
                 y=y_train,
                 epochs=5,
                 verbose=2,
                 validation_split=.03)
 
-    plot(model_1_data)
 main()
