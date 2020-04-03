@@ -26,6 +26,8 @@ def convert_data_to_matrix(file_name):
 #   none
 # Return: none
 def main():
+    logdir = "logs/scalars/" + datetime.now().strftime("%Y%m%d-%H%M%S")
+    tensorboard_callback = keras.callbacks.TensorBoard(log_dir=logdir)
 
     # denote file name for data set
     file_name = "spam.data"
@@ -70,23 +72,45 @@ def main():
     ])
 
     # compile the models
-    model_1.compile(optimizer='adam',
+    model_1.compile(optimizer='sgd',
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
 
-
-    model_2.compile(optimizer='adam',
+    model_2.compile(optimizer='sgd',
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
 
-
-    model_3.compile(optimizer='adam',
+    model_3.compile(optimizer='sgd',
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
 
     # fit the models
-    model_1.fit(x=X_train, y=y_train, epochs=5, verbose=2, validation_split=.03)
-    model_2.fit(x=X_train, y=y_train, epochs=5, verbose=2, validation_split=.03)
-    model_3.fit(x=X_train, y=y_train, epochs=5, verbose=2, validation_split=.03)
+    print("\nModel 1")
+    print("==============================================")
+    model_1_data = model_1.fit(
+                                x=X_train,
+                                y=y_train,
+                                epochs=5,
+                                verbose=2,
+                                validation_split=.03)
 
+    print("\nModel 2")
+    print("==============================================")
+    model_2.fit(
+                x=X_train,
+                y=y_train,
+                epochs=5,
+                verbose=2,
+                validation_split=.03)
+
+    print("\nModel 3")
+    print("==============================================")
+    model_3.fit(
+                x=X_train,
+                y=y_train,
+                epochs=5,
+                verbose=2,
+                validation_split=.03)
+
+    print([x for x in model_1_data.history])
 main()
