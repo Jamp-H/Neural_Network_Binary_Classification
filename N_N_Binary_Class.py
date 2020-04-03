@@ -112,5 +112,5 @@ def main():
                 verbose=2,
                 validation_split=.03)
 
-    print([x for x in model_1_data.history])
+    plot(model_1_data)
 main()
