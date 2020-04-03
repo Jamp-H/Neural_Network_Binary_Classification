@@ -32,6 +32,11 @@ def run_single_layered_NN(X_mat, y_vec, hidden_layers, num_epochs):
     # set model variable to keep track on which number model is being ran
     model_number = 1
 
+    # set color index
+    color_index = 0
+
+    # list of colors for hidden layers
+    colors = ['lightblue', 'darkblue', 'black']
     # creat list of model data
     model_data_list = []
 
@@ -56,7 +61,7 @@ def run_single_layered_NN(X_mat, y_vec, hidden_layers, num_epochs):
                                     x=X_mat,
                                     y=y_vec,
                                     epochs=num_epochs,
-                                    verbose=2,
+                                    verbose=0,
                                     validation_split=.03)
 
         # update model number
@@ -66,11 +71,15 @@ def run_single_layered_NN(X_mat, y_vec, hidden_layers, num_epochs):
         model_data_list.append(model_data)
 
         #GRAPHING IDEAS
-        #plt.plot(range(0,num_epochs), model_data.history['loss'])
+        plt.plot(range(0,num_epochs), model_data.history['loss'],
+                        color = colors[color_index], linestyle = 'solid')
 
-    #plt.xlabel('Epochs')
-    #plt.ylabel("Loss")
-    #plt.show()
+        #update color index
+        color_index += 1
+    plt.grid(True)
+    plt.xlabel('Epochs')
+    plt.ylabel("Loss")
+    plt.show()
 
     return model_data_list
 
@@ -81,7 +90,7 @@ def run_single_layered_NN(X_mat, y_vec, hidden_layers, num_epochs):
 def main():
 
     # set number of epochs
-    num_epochs = 5
+    num_epochs = 60
     # denote file name for data set
     file_name = "spam.data"
     # Get data into matrix form
