@@ -11,7 +11,7 @@ import numpy as np
 from sklearn.preprocessing import scale
 import tensorflow as tf
 from tensorflow import keras
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 # Function: convert_data_to_matrix
 # INPUT ARGS:
@@ -21,6 +21,58 @@ def convert_data_to_matrix(file_name):
     data_matrix_full = np.genfromtxt( file_name, delimiter = " " )
     return data_matrix_full
 
+# Function: run_single_layered_NN
+# INPUT ARGS:
+#
+#
+#
+#
+# Return:
+def run_single_layered_NN(X_mat, y_vec, hidden_layers, num_epochs):
+    # set model variable to keep track on which number model is being ran
+    model_number = 1
+
+    # creat list of model data
+    model_data_list = []
+
+    # create a neural network with 1 hidden layer
+    for hidden_layer in hidden_layers:
+        # set model for single layered NN
+        model = keras.Sequential([
+        keras.layers.Flatten(input_shape=(np.size(X_mat, 1), )), # input layer
+        keras.layers.Dense(hidden_layer, activation='sigmoid', use_bias=False), # hidden layer
+        keras.layers.Dense(1, activation='sigmoid', use_bias=False) # output layer
+        ])
+
+        # compile the models
+        model.compile(optimizer='sgd',
+                      loss='binary_crossentropy',
+                      metrics=['accuracy'])
+
+        # fit the models
+        print(f"\nModel {model_number}")
+        print("==============================================")
+        model_data = model.fit(
+                                    x=X_mat,
+                                    y=y_vec,
+                                    epochs=num_epochs,
+                                    verbose=2,
+                                    validation_split=.03)
+
+        # update model number
+        model_number += 1
+
+        # apend model data to list
+        model_data_list.append(model_data)
+
+        #GRAPHING IDEAS
+        #plt.plot(range(0,num_epochs), model_data.history['loss'])
+
+    #plt.xlabel('Epochs')
+    #plt.ylabel("Loss")
+    #plt.show()
+
+    return model_data_list
 
 # Function: main
 # INPUT ARGS:
@@ -28,7 +80,8 @@ def convert_data_to_matrix(file_name):
 # Return: none
 def main():
 
-
+    # set number of epochs
+    num_epochs = 5
     # denote file name for data set
     file_name = "spam.data"
     # Get data into matrix form
@@ -53,34 +106,8 @@ def main():
     # set array of hidden layers for models
     hidden_layers = [10,100,1000]
 
-    # set model variable to keep track on which number model is being ran
-    model_number = 1
+    model_data_list = run_single_layered_NN(X_train, y_train, hidden_layers, num_epochs)
 
-    # create a neural network with 1 hidden layer
 
-    for hidden_layer in hidden_layers:
-        # set model for single layered NN
-        model = keras.Sequential([
-        keras.layers.Flatten(input_shape=(np.size(X_train, 1), )), # input layer
-        keras.layers.Dense(hidden_layer, activation='sigmoid', use_bias=False), # hidden layer
-        keras.layers.Dense(1, activation='sigmoid', use_bias=False) # output layer
-        ])
 
-        # compile the models
-        model.compile(optimizer='sgd',
-                      loss='binary_crossentropy',
-                      metrics=['accuracy'])
-
-        # fit the models
-        print(f"\nModel {model_number}")
-        print("==============================================")
-        model_data = model.fit(
-                                    x=X_train,
-                                    y=y_train,
-                                    epochs=5,
-                                    verbose=2,
-                                    validation_split=.03)
-
-        # update model number
-        model_number += 1
 main()
