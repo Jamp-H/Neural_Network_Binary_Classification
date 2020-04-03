@@ -70,7 +70,11 @@ def run_single_layered_NN(X_mat, y_vec, hidden_layers, num_epochs):
         # apend model data to list
         model_data_list.append(model_data)
 
-        #GRAPHING IDEAS
+        ## TODO:
+        ## Make graphing into its own function
+        ## Use subtrain to train our model
+        ## Get data from graphs to retrain the entire train set
+        ## Make Predictions given our models
         plt.plot(range(0,num_epochs), model_data.history['loss'],
                         color = colors[color_index], linestyle = 'solid')
 
