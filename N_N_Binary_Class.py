@@ -97,6 +97,11 @@ def graph_model_data(model_data_list, num_epochs, set):
                                 color = colors[color_index], linestyle = line_style[set_index],
                                 label = f"Model {model_index} {set[set_index]} Data")
 
+            if(set[set_index] == 'Subtrain'):
+                plt.plot(range(0,num_epochs), data.history['loss'], markevery=num_epochs,
+                                color = colors[color_index], linestyle = line_style[set_index],
+                                label = f"Model {model_index} {set[set_index]} Data")
+
 
             if(set[set_index] == 'Validation'):
                 plt.plot(range(0,num_epochs), data.history['loss'],
@@ -160,7 +165,7 @@ def main():
     model_data_list = [model_data_subtrain_list, model_data_valid_list]
 
     # plot data
-    graph_model_data(model_data_list, num_epochs, ["Train" ,"Validation"])
+    graph_model_data(model_data_list, num_epochs, ["Subtrain" ,"Validation"])
 
     best_num_epochs = []
     # get best number of epochs besed off validation data
