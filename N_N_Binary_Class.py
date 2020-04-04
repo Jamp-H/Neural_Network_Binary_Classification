@@ -67,10 +67,6 @@ def run_single_layered_NN(X_mat, y_vec, hidden_layers, num_epochs, data_set):
         # apend model data to list
         model_data_list.append(model_data)
 
-        ## TODO:
-        ## Make graphing into its own function
-        ## Get data from graphs to retrain the entire train set
-        ## Make Predictions given our models
 
 
     return model_data_list
