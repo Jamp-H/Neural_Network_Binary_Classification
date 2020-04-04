@@ -175,10 +175,34 @@ def main():
 
         best_num_epochs.append(loss_data.index(min(loss_data)) + 1)
 
-    print(best_num_epochs)
     ## Retrain whole train data based of best num of epochs
     model_data_train_list = run_single_layered_NN(X_train, y_train,
                                             hidden_layers, num_epochs, "Train")
+
+    model_num = 0
+    for model in model_data_subtrain_list:
+        avg_accuracy = sum(model.history['accuracy'])/len(model.history['accuracy'])
+        avg_accuracy_rounded = round(avg_accuracy,4) * 100
+        print(f"Average prediction accuracy for subtrain model {model_num}: {avg_accuracy_rounded}")
+        model_num += 1
+
+    model_num = 0
+    for model in model_data_train_list:
+        avg_accuracy = sum(model.history['accuracy'])/len(model.history['accuracy'])
+        avg_accuracy_rounded = round(avg_accuracy,4) * 100
+        print(f"Average prediction accuracy for train model {model_num}: {avg_accuracy_rounded}")
+        model_num += 1
+
+    unique_num, counts = np.unique(y_train, return_counts=True)
+    most_freq = 0
+    if counts[0] < counts[1]:
+        most_freq = 1
+        ave_baseline = round(counts[1]/len(y_train), 4) * 100
+
+    else:
+        ave_baseline = round(counts[0]/len(y_train), 4) * 100
+
+    print(f"Average prediction accuracy for baseline {ave_baseline}")
 
 
 
